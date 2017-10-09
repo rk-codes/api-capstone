@@ -7,6 +7,7 @@ body{
 	background-repeat: no-repeat;*/
 	/*width: 100%;
 	height: 100%;*/
+
 }
 /*header{
 	position: absolute;
@@ -19,12 +20,39 @@ body{
 	left: 0;
 	right: 0;
 }
+.result-section{
+
+}
 .events-list{
 	border: 1px solid black;
-	background-color: #ffd9b3;
+	/*background-color: #ffd9b3;*/
+	max-height: 500px;
+    overflow-y: scroll;
+    width: 30%;
+    padding: 10px;
+   /* height: 300px;
+    float: left;*/
 }
 .map{
-  height: 400px;
-  width: 100%;
-  /*border: 1px solid black;*/
+  /*height: 100%;*/
+  border: 1px solid black;
+  width: 70%;
+  float: right;
+  height: 500px;
+  /*height: 300px;
+  float: right;*/
+}
+.js-eventInfo{
+	border: 2px outset yellowgreen;
+	margin: 5px;
+	padding: 5px;
+	border-radius: 10px;
+}
+.event-image{
+	width: 40%;
+	height: 40%;
+}
+.event-name{
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
