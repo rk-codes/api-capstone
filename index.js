@@ -21,15 +21,21 @@ function getEventsByLocation(location, callback){
 }
 
 function renderEventInfo(result) {
+  $('.location-box').show();
+  $('.events-list').show();
+  $('.map').show();
   let eventName = result.name.text;
   let eventDescription = result.description.text;
   let eventDetailsUrl = result.url;
-  let eventLogo = result.logo.original;
+  let eventLogo = result.logo.original.url;
+  let fromDate = result.start.local;
+  let toData = result.end.local;
+  console.log("logo:" + eventLogo);
   console.log(`Name: ${eventName} Description: ${eventDescription} Details: ${eventDetailsUrl}`);
   $('.events-list').append(`
-    <div>
-      <h5 class="event-name">${eventName}</h5>
+    <div class="js-eventInfo">
       <img class="event-image" src="${eventLogo}">
+      <h5 class="event-name">${eventName}</h5>
       <a href="${eventDetailsUrl}" class="event-details">More Details</a> 
     </div>`)
 }
@@ -53,5 +59,8 @@ function handleSearchClick() {
 
 function init(){
   handleSearchClick();
+  $('.events-list').hide();
+  $('.map').hide();
+  $('.location-box').hide();
 }
 $(init());
