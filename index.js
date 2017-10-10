@@ -95,7 +95,8 @@ function renderEventInfo(resultInfo){
     <div class="js-eventInfo">
       <img class="event-image" src="${resultInfo.eventLogo}">
       <h5 class="event-name">${resultInfo.eventName}</h5>
-      <a href="${resultInfo.eventDetailsUrl}" class="event-details">More Details</a> 
+      <span>${resultInfo.address}</span>
+      <a href="${resultInfo.eventDetailsUrl}" class="event-details">More..</a> 
     </div>`)
 }
 
