@@ -26,14 +26,15 @@ function getEventsByLocation(location, callback){
 // Success callback. Get the details of the events retrieved
 function getDataOfEvents(data) {
   console.log("Enter callback for eventdetails (getDataOfEvents)");
-
+  
   const results = data.events.map((item, index) => collectEventInfo(item));
   $('.search-box').hide();
 }
 
 // Collect the event information and store the details in an eventData object
 function collectEventInfo(result) {
-  console.log("Enter collectEventInfo")
+  console.log("Enter collectEventInfo");
+  console.dir(result);
   $('.result-section').show();
   $('.location-box').show();
   $('.events-list').show();
@@ -115,12 +116,14 @@ function handleSearchClick() {
 
 // Google Map
 function initMap(){
+
   console.log("Init Map");
   let options = {
     zoom: 8,
-    center: {lat: 37.7749, lng: -122.4194}
+    center: {lat: 37.7849, lng: -122.4194}
   }
-  // let map = new google.maps.Map(document.getElementById('map'),options);
+   let map = new google.maps.Map(document.getElementById('map'),options);
+    google.maps.event.trigger(map, 'resize');
 }
 
 
@@ -128,5 +131,8 @@ function init(){
   handleSearchClick();
   $('.events-list').hide();
   $('.result-section').hide();
+  // $('#map').on('shown', function () {;
+  // });
+  initMap();
 }
 $(init());
