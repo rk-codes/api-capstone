@@ -42,11 +42,10 @@ header{
  	float: left;
 }
 .map-box{
-  background-color: grey;
+  border: 1px solid black;
   width: 70%;
   float: left;
   height: 400px;
-
 }
 
 .js-eventInfo{
