@@ -11,12 +11,18 @@
    <!--  <script src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script> -->
+  <header role="header">
+    <div class="row">
+      <div class="col-12">
+        <h1>Event Finder<h1>
+      </div>
+    </div>
+  </header>
+
   <main role="main">
     <section class="search-box">
-      <header>
-        <h1>Find Events</h1>
-      </header>
-      <form>
+       <span>What's good in</span>
+       <form>
        <input type="text" name="location" class="user-location" placeholder="eg., San Francisco">
        <input type="button" value="Search" class="search-button">
       </form>
@@ -25,18 +31,20 @@
     <section class="result-section">
       <!-- <div class="row"> -->
          <div class="location-box">
-            <h5>Upcoming events in</h5>
+            <span>Upcoming events in</span>
          </div>
       <!-- </div> -->
       
       <!-- <div class="row"> -->
-        <div class="map">
-           <span>Map</span>
-        </div>
-
        <div class="events-list">
 
         </div> 
+
+        <div class="map-box" id="map">
+           <span>Map</span>
+        </div>
+
+      
       <!-- </div> -->
       <!-- <div> -->
       <!-- </div> -->
@@ -44,8 +52,12 @@
     </section> 
 
   </main>
- 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArySOG4MTzHdufypzKbBUrdesEvEdljYs&callback=initMap">
+  </script>
+ 
   <script src="index.js"></script>
+  
   </body>
 </html>
