@@ -1,5 +1,6 @@
 const API_KEY = "H5GX62DOZ35YWUCY36J7";
 const EVENTBRITE_URL = "https://www.eventbriteapi.com/v3";
+let map;
 
 let eventData = {};
 let eventsArray = [];
@@ -91,7 +92,8 @@ function collectVenueInfo(data){
 // Add the event details to the DOM
 function renderEventInfo(resultInfo){
   console.log("Enter renderEventInfo");
-  console.log(resultInfo);
+  initMap();
+  // console.log(resultInfo);
   $('.events-list').append(`
     <div class="js-eventInfo">
       <img class="event-image" src="${resultInfo.eventLogo}">
@@ -99,6 +101,7 @@ function renderEventInfo(resultInfo){
       <span>${resultInfo.address}</span>
       <a href="${resultInfo.eventDetailsUrl}" class="event-details">More..</a> 
     </div>`)
+  
 }
 
 
@@ -111,7 +114,7 @@ function handleSearchClick() {
     //console.log("Location: "+ location);
     getEventsByLocation(location,getDataOfEvents);
    })
- 
+  
 }
 
 // Google Map
@@ -120,10 +123,11 @@ function initMap(){
   console.log("Init Map");
   let options = {
     zoom: 8,
-    center: {lat: 37.7849, lng: -122.4194}
+    // center: {lat: 37.6213, lng: -37.6213}
   }
-   let map = new google.maps.Map(document.getElementById('map'),options);
-    google.maps.event.trigger(map, 'resize');
+   map = new google.maps.Map(document.getElementById('map'),options);
+   google.maps.event.trigger(map, 'resize');
+    map.setCenter(new google.maps.LatLng(38.9072,-77.0369));
 }
 
 
@@ -131,8 +135,5 @@ function init(){
   handleSearchClick();
   $('.events-list').hide();
   $('.result-section').hide();
-  // $('#map').on('shown', function () {;
-  // });
-  initMap();
 }
 $(init());
