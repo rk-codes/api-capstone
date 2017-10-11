@@ -1,6 +1,7 @@
 const API_KEY = "H5GX62DOZ35YWUCY36J7";
 const EVENTBRITE_URL = "https://www.eventbriteapi.com/v3";
 let map;
+let inputLocation;
 
 let eventData = {};
 let eventsArray = [];
@@ -24,95 +25,64 @@ function getEventsByLocation(location, callback){
 
 }
 
-// Success callback. Get the details of the events retrieved
+// Success callback. Pass the data recieved to next request to collect venue details
 function getDataOfEvents(data) {
-  console.log("Enter callback for eventdetails (getDataOfEvents)");
-  
-  const results = data.events.map((item, index) => collectEventInfo(item));
-  $('.search-box').hide();
+   $('.search-box').hide();
+   data.events.forEach((event) =>{
+    getEventVenueDetails(event);
+  });
 }
 
-// Collect the event information and store the details in an eventData object
-function collectEventInfo(result) {
-  console.log("Enter collectEventInfo");
-  console.dir(result);
+// This function makes ajax request to get the venue information
+function getEventVenueDetails(eventData){
+  console.log(" Enter getEventVenueDetails Venue Id: " + eventData.venue_id);
+  const params= {
+     token: API_KEY
+   }
+   let id = eventData.venue_id;
+   $.getJSON(`${EVENTBRITE_URL}/venues/${id}/`, params, function(data){
+     console.log("success call back venue");
+     console.log(data.address.localized_address_display);
+     eventData.address = data.address.localized_address_display;
+     console.log(eventData);
+     renderEventInfo(eventData);
+   });
+}
+
+
+// This function renders the DOM with the event data
+function renderEventInfo(eventResult){
   $('.result-section').show();
-  $('.location-box').show();
   $('.events-list').show();
   $('.map').show();
-  let eventName = result.name.text;
-  let eventDescription = result.description.text;
-  let eventDetailsUrl = result.url;
-  let eventLogo = result.logo.original.url;
-  let fromDate = result.start.local;
-  let toData = result.end.local;
-  let venueId = result.venue_id;
-  eventData = {
-    "eventName": result.name.text,
-    "eventDetailsUrl": result.url,
-    "eventLogo":  result.logo.original.url,
-    "venueId": result.venue_id
-  }
-  eventsArray.push(eventData);
-  //console.log(`Putting ${venueId} at index ${eventData.length - 1}`);
-  getEventVenueDetails(venueId,collectVenueInfo);
-
-  // $('.events-list').append(`
-  //   <div class="js-eventInfo">
-  //     <img class="event-image" src="${eventLogo}">
-  //     <h5 class="event-name">${eventName}</h5>
-  //     <a href="${eventDetailsUrl}" class="event-details">More Details</a> 
-  //   </div>`)
-}
-
-
-
-// Call the api to get the venue details of each event retrieved using the venue Id
-function getEventVenueDetails(id, callback){
- console.log(" Enter getEventVenueDetails Venue Id: " + id);
-  const params= {
-    token: API_KEY
-  }
-   $.getJSON(`${EVENTBRITE_URL}/venues/${id}/`, params, callback);
-}
-
-
-// Success callback
-let index = 0;
-function collectVenueInfo(data){
-  console.log("Enter callback for venue details (collectVenueInfo)");
-   eventsArray[index].address = data.address.localized_address_display;
-   console.log(eventsArray[index].address);
-    // eventsArray.forEach((item,index) => console.log(item));
-  renderEventInfo(eventsArray[index]);
-   index++;
-}
-
-
-// Add the event details to the DOM
-function renderEventInfo(resultInfo){
-  console.log("Enter renderEventInfo");
   initMap();
-  // console.log(resultInfo);
-  $('.events-list').append(`
-    <div class="js-eventInfo">
-      <img class="event-image" src="${resultInfo.eventLogo}">
-      <h5 class="event-name">${resultInfo.eventName}</h5>
-      <span>${resultInfo.address}</span>
-      <a href="${resultInfo.eventDetailsUrl}" class="event-details">More..</a> 
-    </div>`)
-  
-}
+  let eventName = eventResult.name.text;
+  let eventDescription = eventResult.description.text;
+  let eventDetailsUrl = eventResult.url;
+  let eventLogo = eventResult.logo.original.url;
+  let fromDate = eventResult.start.local;
+  let toData = eventResult.end.local;
+  let eventAddress = eventResult.address;
 
+  $('.events-list').append(`
+     <div class="js-eventInfo">
+       <img class="event-image" src="${eventLogo}">
+       <h5 class="event-name">${eventName}</h5>
+       <span>${eventAddress}</span>
+       <a href="${eventDetailsUrl}" class="event-details">More..</a> 
+     </div>`)
+
+}
 
 // Function called when user enters the location and press search button
 function handleSearchClick() {
   console.log("Enter handleSearchClick ");
   $('.search-button').on('click', function (event){
     event.preventDefault();
-    let location = $('.user-location').val();
-    //console.log("Location: "+ location);
-    getEventsByLocation(location,getDataOfEvents);
+    inputLocation = $('.user-location').val();
+    $('.location-box').show();
+    $('.location-box').append(`<span class="current-location">Upcoming events in ${inputLocation}`);
+    getEventsByLocation(inputLocation,getDataOfEvents);
    })
   
 }
@@ -135,5 +105,6 @@ function init(){
   handleSearchClick();
   $('.events-list').hide();
   $('.result-section').hide();
+ 
 }
 $(init());
