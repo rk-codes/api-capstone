@@ -23,7 +23,7 @@
     <section class="search-box">
        <span>What's happening in..</span>
        <form>
-       <input type="text" name="location" class="user-location" placeholder="eg., San Francisco">
+       <input type="text" name="location" class="user-location" id="autocomplete" placeholder="eg., San Francisco">
        <input type="button" value="Search" class="search-button">
       </form>
     </section> 
@@ -31,16 +31,16 @@
     <section class="result-section">
       <!-- <div class="row"> -->
          <div class="location-box">
-            <span>Upcoming events in</span>
+            
          </div>
       <!-- </div> -->
       
       <!-- <div class="row"> -->
-       <div class="events-list">
+       <div class="events-list col-3">
 
         </div> 
 
-        <div class="map-box" id="map">
+        <div class="map-box col-9" id="map">
            <span>Map</span>
         </div>
 
@@ -52,9 +52,10 @@
     </section> 
 
   </main>
-  <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArySOG4MTzHdufypzKbBUrdesEvEdljYs">
+  <script 
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArySOG4MTzHdufypzKbBUrdesEvEdljYs&sensor=false&libraries=places&language=en">
     </script>
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&language=en"></script> -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
    
   <script src="index.js"></script>
