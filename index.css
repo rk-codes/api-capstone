@@ -10,10 +10,20 @@ body, html{
 body{
 	margin: 0 auto;
 	height: 100%;
+	background-image: url('mic_image.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 header{
 	text-align: center;
-	background-color: #F5C30F;
+	background-color: #d6a46f;
+	color: #1d6b5a;
+	opacity: 0.5;
+}
+.search-box > span{
+	font-weight: bold;
+	font-size: 20px;
+	color: white;
 }
 .search-box{
 	text-align: center;
@@ -22,14 +32,31 @@ header{
 	left: 0;
 	right: 0;
 }
+.user-location{
+	border: 2px solid #cdcdcd;
+    border-color: #F5C30F;
+    border-radius: 4px;
+    font-size: 15px;
+    padding: 4px;
+    margin-top: 8px;
+}
+.search-button{
+	padding: 4px;
+	border-radius: 2px;
+    font-size: 15px;
+    background-color: white;
+}
+.search-button:hover{
+	background-color: #cead8c;
+}
 .result-section{
 	/*border-radius: 8px;
 	border: 1px solid red;*/
   /*	height: 100%;
   	width: 100%;*/
-  	margin: 10px;
+  	/*margin: 10px;
   	position: absolute;
-  	top: 15%;
+  	top: 15%;*/
 }
 .location-box{
 	margin: 10px;
@@ -38,14 +65,15 @@ header{
 	border: 1px solid black;
 	max-height: 500px;
     overflow-y: scroll;
-    width: 30%;
+    /*width: 30%;*/
  	float: left;
+ 	background-color: #eae0d5;
 }
 .map-box{
   border: 1px solid black;
-  width: 70%;
+  /*width: 70%;*/
   float: left;
-  height: 400px;
+  height: 500px;
 }
 
 .js-eventInfo{
