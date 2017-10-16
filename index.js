@@ -2,10 +2,9 @@ const API_KEY = "H5GX62DOZ35YWUCY36J7";
 const EVENTBRITE_URL = "https://www.eventbriteapi.com/v3";
 const MAP_CENTER = "https://maps.googleapis.com/maps/api/geocode"
 let map;
+let infowindow;
 let inputLocation;
 
-let eventData = {};
-let eventsArray = [];
 //This function retrieves the categories of the events
 function getCategoriesFromApi(endpoint, callback){
   const params= {
@@ -65,7 +64,7 @@ function getEventVenueDetails(eventData){
      console.log(eventData);
      renderEventInfo(eventData);
           
-     addMarkerToMap(eventData.latitude, eventData.longitude);
+     addMarkerToMap(eventData.latitude, eventData.longitude,eventData.address);
    });
  }
 
@@ -82,11 +81,13 @@ function renderEventInfo(eventResult){
   console.log(`Event start: ${fromDate}`);
   console.dir(fromDate);
   console.log(new Date(fromDate));
+  let eventDate = new Date(fromDate);
 
   $('.events-list').append(`
      <div class="js-eventInfo">
-       <img class="event-image" src="${eventLogo}">
-       <h5 class="event-name">${eventName}</h5>
+       <img class="js-event-image" src="${eventLogo}">
+       <span class="js-event-date">${eventDate}</span>
+       <h4 class="js-event-name">${eventName}</h5>
        <span>${eventAddress}</span>
        <a href="${eventDetailsUrl}" class="event-details">More..</a> 
      </div>`)
@@ -107,14 +108,23 @@ function handleSearchClick() {
 }
 
 // Add marker to google map
-function addMarkerToMap(eLat, eLong) {
+function addMarkerToMap(eLat, eLong, venAddress) {
   //let eventLatLng = new google.maps.LatLng(lat, long);
   console.log({lat: eLat, lng: eLong});
   let marker = new google.maps.Marker({
         position: {lat: Number(eLat), lng: Number(eLong)},
         map: map
   });
+ 
+  google.maps.event.addListener(marker, 'click', (function (marker) {
+      return function () {
+        infowindow.setContent(venAddress);
+        infowindow.open(map, marker);
+      };
+    })(marker));
 }
+
+
 
 // Google Map
 function initMap(lat, lng){
@@ -129,6 +139,8 @@ function initMap(lat, lng){
    map = new google.maps.Map(document.getElementById('map'),options);
    //google.maps.event.trigger(map, 'resize');
    map.setCenter(new google.maps.LatLng(lat, lng));
+
+   infowindow = new google.maps.InfoWindow({});
 
 }
 
