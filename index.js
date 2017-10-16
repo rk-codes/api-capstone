@@ -85,9 +85,12 @@ function renderEventInfo(eventResult){
 
   $('.events-list').append(`
      <div class="js-eventInfo">
+      <div class="js-img-box">
        <img class="js-event-image" src="${eventLogo}">
        <span class="js-event-date">${eventDate}</span>
-       <h4 class="js-event-name">${eventName}</h5>
+      </div>
+       
+       <h4 class="js-event-name">${eventName}</h4>
        <span>${eventAddress}</span>
        <a href="${eventDetailsUrl}" class="event-details">More..</a> 
      </div>`)

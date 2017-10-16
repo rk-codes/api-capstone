@@ -1,11 +1,13 @@
  body *{
 	box-sizing: border-box;
-
+/*	margin: 0;
+	padding: 0;*/
+	font-size: 1em;
 }
 body, html{
-  height:100%;
+  /*height:100%;
   margin:0; 
-  padding:0; 
+  padding:0; */
 }
 body{
 	margin: 0 auto;
@@ -13,16 +15,30 @@ body{
 	background-image: url('mic_image.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;
+
 }
 header{
 	text-align: center;
 	background-color: #d6a46f;
-	color: #1d6b5a;
+	color: saddlebrown;
+	background-color: white;
+	/*background-color: #1D1E1F;*/
 	opacity: 0.5;
+	font-size: 2em;
+
+}
+.logo-image{
+	width: 70px;	
+	height: 50px;
+	float: left;
+	position: relative;
+	top: -45px;
+	left: 280px;
+
 }
 .search-box > span{
 	font-weight: bold;
-	font-size: 20px;
+	font-size: 1.2em;
 	color: white;
 }
 .search-box{
@@ -33,60 +49,86 @@ header{
 	right: 0;
 }
 .user-location{
-	border: 2px solid #cdcdcd;
-    border-color: #F5C30F;
+	border: 2px solid saddlebrown;
     border-radius: 4px;
-    font-size: 15px;
+    font-size: 1.1em;
     padding: 4px;
     margin-top: 8px;
 }
 .search-button{
 	padding: 4px;
-	border-radius: 2px;
-    font-size: 15px;
-    background-color: white;
+	margin-left: 8px;
+	border-radius: 6px;
+	border: 0;
+    background-color:  #ff9966;
+    color: white;
+    font-size: 1.3em;
+    font-weight: bold;
 }
 .search-button:hover{
-	background-color: #cead8c;
+	background-color: blueviolet;
+		
 }
 .result-section{
 	/*border-radius: 8px;
 	border: 1px solid red;*/
   /*	height: 100%;
   	width: 100%;*/
-  	/*margin: 10px;
-  	position: absolute;
-  	top: 15%;*/
+  
+/*
+  background-color: #f2f2f2;
+  margin-top: 40px;*/
+
 }
 .location-box{
-	margin: 10px;
+	/*	margin-bottom: 15px;*/
+	margin-top: 20px;
+	padding: 8px;
+	border-color: #d9d9d9;
+	background-color: #f2f2f2;
+	/*width: 40%;*/
+	border-radius: 3px;
+
+}
+.list-and-map{
+	background-color: #f2f2f2;
 }
 .events-list{
 	border: 1px solid black;
-	max-height: 500px;
+	max-height: 450px;
     overflow-y: scroll;
     /*width: 30%;*/
  	float: left;
- 	background-color: #eae0d5;
+ 	background-color: #eae0d5;	
+ 	margin-top: 5px;
 }
 .map-box{
-  border: 1px solid black;
-  /*width: 70%;*/
-  float: left;
-  height: 500px;
-}
+  height: 450px;
+  margin-top: 5px;
+ }
 
 .js-eventInfo{
-	border: 2px outset yellowgreen;
+	border: 1px outset #717678;
 	margin: 5px;
 	padding: 5px;
 	border-radius: 10px;
+	font-size: 0.9em;
 }
-.event-image{
-	width: 40%;
-	height: 40%;
+.js-img-box{
+	position: relative;
+	margin-bottom: 10px;
 }
-.event-name{
+.js-event-image{
+	width: 30%;
+	height: 30%;
+}
+.js-event-date{
+	position: absolute;
+	left: 97px;
+	top: 7px;
+}
+.js-event-name{
 	margin-top: 0px;
 	margin-bottom: 0px;
+	font-size: 1em;
 }
