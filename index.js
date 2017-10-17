@@ -103,7 +103,7 @@ function renderEventInfo(eventResult){
        
        <h4 class="js-event-name">${eventName}</h4>
        <span>${eventAddress}</span>
-       <a href="${eventDetailsUrl}" class="event-details">More..</a> 
+       <a href="${eventDetailsUrl}" class="event-details" target="_blank">More..</a> 
      </div>`)
 
 }
