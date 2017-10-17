@@ -17,14 +17,12 @@ function getCategoriesFromApi(endpoint, callback){
 
 // Calls the api to get the events in the given location
 function getEventsByLocation(location, callback){
-  $('.search-box').hide();
   const params= {
       "location.address": `${location}`,
       token: API_KEY
      }
   $.getJSON(`${EVENTBRITE_URL}/events/search/`,params,callback);
   //displayMap(location);  
-
 }
 
 function displayMap(location){
@@ -39,9 +37,8 @@ function displayMap(location){
 }
 // Success callback. Pass the data recieved to next request to collect venue details
 function getDataOfEvents(data) {
-    $('.search-box').hide();
+    // $('.search-pending-section').hide();
     $('.result-section').show();
-    $('.events-list').show();
     displayMap(inputLocation);
    data.events.forEach((event) =>{
     getEventVenueDetails(event);
@@ -64,7 +61,7 @@ function getEventVenueDetails(eventData){
      console.log(eventData);
      renderEventInfo(eventData);
           
-     addMarkerToMap(eventData.latitude, eventData.longitude,eventData.address);
+     addMarkerToMap(eventData);
    });
  }
 
@@ -74,20 +71,34 @@ function renderEventInfo(eventResult){
   let eventName = eventResult.name.text;
   let eventDescription = eventResult.description.text;
   let eventDetailsUrl = eventResult.url;
-  let eventLogo = eventResult.logo.original.url;
+  let eventLogo = eventResult.logo? eventResult.logo.original.url: "";
   let fromDate = eventResult.start.local;
   let toData = eventResult.end.local;
   let eventAddress = eventResult.address;
   console.log(`Event start: ${fromDate}`);
-  console.dir(fromDate);
   console.log(new Date(fromDate));
   let eventDate = new Date(fromDate);
+  let options = {
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'short', 
+    day: '2-digit'
+  }
+  let dateFormatter = Intl.DateTimeFormat("en-us", options);
+  let timeFormatter = Intl.DateTimeFormat("en-us", {
+    hour: '2-digit', 
+    minute: '2-digit'
+  });
 
   $('.events-list').append(`
      <div class="js-eventInfo">
       <div class="js-img-box">
-       <img class="js-event-image" src="${eventLogo}">
-       <span class="js-event-date">${eventDate}</span>
+        <img class="js-event-image" src="${eventLogo}">
+        <span class="js-event-date">
+          ${dateFormatter.format(eventDate)}
+          <br/>
+          ${timeFormatter.format(eventDate)}
+        </span>
       </div>
        
        <h4 class="js-event-name">${eventName}</h4>
@@ -103,28 +114,35 @@ function handleSearchClick() {
   $('.search-button').on('click', function (event){
     event.preventDefault();
     inputLocation = $('.user-location').val();
+    $('.search-box').hide();
     $('.location-box').show();
     $('.location-box').append(`<span class="current-location">Upcoming events in ${inputLocation}`);
+    // $('.search-pending-section').show();
     getEventsByLocation(inputLocation, getDataOfEvents);
-    
   })
 }
 
 // Add marker to google map
-function addMarkerToMap(eLat, eLong, venAddress) {
+function addMarkerToMap(eventData) {
   //let eventLatLng = new google.maps.LatLng(lat, long);
+  let eLat = eventData.latitude;
+  let eLong = eventData.longitude;
+  let venAddress = eventData.address||"No Address";
+  let eName = eventData.name.text;
   console.log({lat: eLat, lng: eLong});
   let marker = new google.maps.Marker({
         position: {lat: Number(eLat), lng: Number(eLong)},
         map: map
   });
- 
-  google.maps.event.addListener(marker, 'click', (function (marker) {
-      return function () {
-        infowindow.setContent(venAddress);
-        infowindow.open(map, marker);
-      };
-    })(marker));
+
+  google.maps.event.addListener(marker, 'click', function() {
+  infowindow.setContent(`
+    <div class="js-marker-window">
+      <span><strong>${eName}</strong></span>
+      <p>${venAddress}</p>
+    </div>`);
+    infowindow.open(map,marker);
+  });
 }
 
 
@@ -150,9 +168,9 @@ function initMap(lat, lng){
 
 function init(){
   handleSearchClick();
-  $('.events-list').hide();
+  // $('.search-pending-section').hide();
   $('.result-section').hide();
-  let input = document.getElementById('autocomplete');
+  let input = $('#autocomplete').get(0);
   let autocomplete = new google.maps.places.Autocomplete(input);
 }
 $(init());

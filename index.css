@@ -102,6 +102,7 @@ header{
  	background-color: #eae0d5;	
  	margin-top: 5px;
 }
+
 .map-box{
   height: 450px;
   margin-top: 5px;
@@ -131,4 +132,8 @@ header{
 	margin-top: 0px;
 	margin-bottom: 0px;
 	font-size: 1em;
+}
+.js-marker-window{
+	width: 200px;
+	min-height: 40px;
 }
