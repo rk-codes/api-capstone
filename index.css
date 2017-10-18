@@ -156,3 +156,8 @@ h1{
 	width: 200px;
 	min-height: 40px;
 }
+@media only screen and (max-width: 640px) {
+	.events-list{
+		margin-bottom: 20px;
+	}
+}
