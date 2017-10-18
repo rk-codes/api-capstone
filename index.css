@@ -18,12 +18,19 @@ body{
 header{
 	text-align: center;
 	background-color: #d6a46f;
-	color: saddlebrown;
+	color: brown;
 	background-color: white;
-	/*background-color: #1D1E1F;*/
 	opacity: 0.5;
+}
+h1{
 	font-size: 2em;
-
+	font-family: 'Playfair Display', serif;
+	/*margin-bottom: 0px;*/
+	margin-top: 5px;
+	padding: 0;
+}
+.search-label{
+	font-family: 'Lobster Two', cursive;
 }
 .logo-image{
 	width: 70px;	
@@ -58,7 +65,7 @@ header{
 	margin-left: 8px;
 	border-radius: 6px;
 	border: 0;
-    background-color:  #ff9966;
+    background-color: indianred;
     color: white;
     font-size: 1.3em;
     font-weight: bold;
