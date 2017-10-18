@@ -101,8 +101,8 @@ function renderEventInfo(eventResult){
         </span>
       </div>
        
-       <h4 class="js-event-name">${eventName}</h4>
-       <span>${eventAddress}</span>
+       <span class="js-event-name">${eventName}</span>
+       <p>${eventAddress}</p>
        <a href="${eventDetailsUrl}" class="event-details" target="_blank">More..</a> 
      </div>`)
 
