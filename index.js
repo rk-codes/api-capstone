@@ -38,9 +38,10 @@ function displayMap(location){
 // Success callback. Pass the data recieved to next request to collect venue details
 function getDataOfEvents(data) {
     // $('.search-pending-section').hide();
+    $('#loading').hide();
     $('.result-section').show();
     displayMap(inputLocation);
-   data.events.forEach((event) =>{
+    data.events.forEach((event) =>{
     getEventVenueDetails(event);
   });
 }
@@ -115,6 +116,7 @@ function handleSearchClick() {
     event.preventDefault();
     inputLocation = $('.user-location').val();
     $('.search-box').hide();
+    $('#loading').show();
     $('.location-box').show();
     $('.location-box').append(`<span class="current-location">Upcoming events in ${inputLocation}`);
     // $('.search-pending-section').show();
@@ -169,6 +171,7 @@ function initMap(lat, lng){
 function init(){
   handleSearchClick();
   // $('.search-pending-section').hide();
+  $('#loading').hide();
   $('.result-section').hide();
   let input = $('#autocomplete').get(0);
   let autocomplete = new google.maps.places.Autocomplete(input);

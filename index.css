@@ -67,6 +67,15 @@ header{
 	background-color: blueviolet;
 		
 }
+#loading {
+	height: 300px;
+	width: 300px;
+	position: absolute;
+	top: 30%;
+	left: 40%;
+    background: url('loader.gif') no-repeat center center;
+    opacity: 0.6;
+}
 .result-section{
 	/*border-radius: 8px;
 	border: 1px solid red;*/
