@@ -6,64 +6,48 @@ let infowindow;
 let inputLocation;
 let allMarkers = [];
 
-//This function retrieves the categories of the events
-function getCategoriesFromApi(endpoint, callback){
-  const params= {
-    token: API_KEY
-  }
-  // $.getJSON(`${EVENTBRITE_URL}/${endpoint}/`,params,logData);
-}
-//getCategoriesFromApi("categories",logData);
-
-
 // Calls the api to get the events in the given location
 function getEventsByLocation(location, callback){
   const params= {
-      "location.address": `${location}`,
-      token: API_KEY
-     }
-  $.getJSON(`${EVENTBRITE_URL}/events/search/`,params,callback);
+    "location.address": `${location}`,
+    token: API_KEY
+  }
+  $.getJSON(`${EVENTBRITE_URL}/events/search/`, params, callback);
 }
 
 function displayMap(location){
-  $.getJSON(`${MAP_URL}/json?address=${location}`,function (data){
-
-      initMap(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng);
-          
-   });
-
+  $.getJSON(`${MAP_URL}/json?address=${location}`, function (data){
+    initMap(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng);        
+  });
 }
+
 // Success callback. Pass the data recieved to next request to collect venue details
 function getDataOfEvents(data) {
-    $('#loading').hide();
-    $('.result-section').show();
-    displayMap(inputLocation);
-    data.events.forEach((event) =>{
+  $('#loading').hide();
+  $('.result-section').show();
+  displayMap(inputLocation);
+  data.events.forEach((event) => {
     getEventVenueDetails(event);
   });
 }
 
 // This function makes ajax request to get the venue information
-function getEventVenueDetails(eventData){
-  
+function getEventVenueDetails(eventData){  
   const params= {
-     token: API_KEY
-   }
+    token: API_KEY
+  }
   let id = eventData.venue_id;
   $.getJSON(`${EVENTBRITE_URL}/venues/${id}/`, params, function(data){
-     eventData.address = data.address.localized_address_display;
-     eventData.latitude = data.latitude;
-     eventData.longitude = data.longitude;
-     console.log(eventData);
-     renderEventInfo(eventData);
-          
-     addMarkerToMap(eventData);
-   });
- }
-
+    eventData.address = data.address.localized_address_display;
+    eventData.latitude = data.latitude;
+    eventData.longitude = data.longitude;
+    renderEventInfo(eventData); 
+    addMarkerToMap(eventData);
+  });
+}
 
 // This function renders the DOM with the event data
-function renderEventInfo(eventResult){
+function renderEventInfo(eventResult) {
   let eventName = eventResult.name.text;
   let eventDescription = eventResult.description.text;
   let eventDetailsUrl = eventResult.url;
@@ -83,9 +67,8 @@ function renderEventInfo(eventResult){
     hour: '2-digit', 
     minute: '2-digit'
   });
-
   $('.events-list').append(`
-     <div class="js-eventInfo" data-name="${eventName}">
+    <div class="js-eventInfo" data-name="${eventName}">
       <div class="js-img-box">
         <img class="js-event-image" src="${eventLogo}">
         <span class="js-event-date">
@@ -94,17 +77,16 @@ function renderEventInfo(eventResult){
           ${timeFormatter.format(eventDate)}
         </span>
       </div>
-       
-       <span class="js-event-name">${eventName}</span>
-       <p>${eventAddress}</p>
-       <a href="${eventDetailsUrl}" class="event-details" target="_blank">More..</a> 
-     </div>`)
-
+      <span class="js-event-name">${eventName}</span>
+      <p>${eventAddress}</p>
+      <a href="${eventDetailsUrl}" class="event-details" target="_blank">More..</a> 
+    </div>
+  `);
 }
 
 // Function called when user enters the location and press search button
 function handleSearchClick() {
-    $('.search-button').on('click', function (event){
+  $('.search-button').on('click', function (event) {
     event.preventDefault();
     inputLocation = $('.user-location').val();
     $('.search-box').hide();
@@ -115,20 +97,18 @@ function handleSearchClick() {
       <input type="button" value="New Search" class="searchagain-button">`);
     getEventsByLocation(inputLocation, getDataOfEvents);
     handleNewSearchClick();
-
-  })
+  });
 }
 
-function handleNewSearchClick(){
-   console.log("Enter handleNewSearchClick ");
-   $('.searchagain-button').on('click',function(event){
-     event.preventDefault();
-     $('.location-box').html("");
-     $('.result-section').hide();
-     $('.search-box').show();
-     $('.user-location').val("");
-     $('.events-list').html("");
-   });
+function handleNewSearchClick() {
+  $('.searchagain-button').on('click', function(event) {
+    event.preventDefault();
+    $('.location-box').html("");
+    $('.result-section').hide();
+    $('.search-box').show();
+    $('.user-location').val("");
+    $('.events-list').html("");
+  });
 }
 
 // Add marker to google map
@@ -146,13 +126,11 @@ function addMarkerToMap(eventData) {
     hour: '2-digit', 
     minute: '2-digit'
   });
- 
   let marker = new google.maps.Marker({
-        position: {lat: Number(eLat), lng: Number(eLong)},
-        map: map,
-        name: eName
+    position: {lat: Number(eLat), lng: Number(eLong)},
+    map: map,
+    name: eName
   });
-
   marker.setIcon("marker_initial.png");
   google.maps.event.addListener(marker, 'click', function() {
   infowindow.setContent(`
@@ -168,12 +146,10 @@ function addMarkerToMap(eventData) {
 
 // Function to highlight marker of an event when mouse moved over that event div in the list
 function handleMouseOver(){
-   $('.events-list').on('mouseover', '.js-eventInfo',function(event){
-    console.log("Hover")
+  $('.events-list').on('mouseover', '.js-eventInfo',function(event) {
     let name = event.currentTarget.getAttribute("data-name");
-    for(let i=0; i<allMarkers.length; i++){
-        if(name === allMarkers[i].name){
-        console.log("TRUE");
+    for(let i = 0; i < allMarkers.length; i++) {
+      if(name === allMarkers[i].name) {
         allMarkers[i].setIcon("marker_new.png");
         break;
       }
@@ -183,13 +159,10 @@ function handleMouseOver(){
 
 // Function to set the marker to the initial icon when mouse moved out of the event div in the list
 function handleMouseOut(name){
-  $('.events-list').on('mouseout', '.js-eventInfo',function(event){
-    console.log("MouseOut")
+  $('.events-list').on('mouseout', '.js-eventInfo',function(event) {
     let name = event.currentTarget.getAttribute("data-name");
-   
-    for(let i=0; i<allMarkers.length; i++){
-        if(name === allMarkers[i].name){
-        console.log("TRUE");
+    for(let i = 0; i < allMarkers.length; i++) {
+      if(name === allMarkers[i].name) {
         allMarkers[i].setIcon("marker_initial.png");
         break;
       }
@@ -197,25 +170,19 @@ function handleMouseOut(name){
   });
 }
 
-
 // Google Map
-function initMap(lat, lng){
+function initMap(lat, lng) {
   $('.map').show();
-  console.log("Init Map");
   let options = {
     zoom: 10,
-     //center: {lat: lat, lng: lng}
   }
    map = new google.maps.Map(document.getElementById('map'),options);
-   //google.maps.event.trigger(map, 'resize');
    map.setCenter(new google.maps.LatLng(lat, lng));
-
    infowindow = new google.maps.InfoWindow({});
-
 }
 
 
-function init(){
+function init() {
   handleSearchClick(); 
   handleMouseOver();
   handleMouseOut();
@@ -224,4 +191,5 @@ function init(){
   let input = $('#autocomplete').get(0);
   let autocomplete = new google.maps.places.Autocomplete(input);
 }
+
 $(init());
