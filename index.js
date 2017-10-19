@@ -137,6 +137,15 @@ function addMarkerToMap(eventData) {
   let venAddress = eventData.address||"No Address";
   let eName = eventData.name.text;
   let eventDetails = eventData.url;
+  let eventDate = eventData.start.local;
+  let formatter = Intl.DateTimeFormat("en-us", {
+    weekday: 'short', 
+    month: 'short', 
+    day: '2-digit',
+    hour: '2-digit', 
+    minute: '2-digit'
+  });
+ 
   let marker = new google.maps.Marker({
         position: {lat: Number(eLat), lng: Number(eLong)},
         map: map
@@ -146,6 +155,7 @@ function addMarkerToMap(eventData) {
   infowindow.setContent(`
     <div class="js-marker-window">
       <a href="${eventDetails}" target="_blank">${eName}</a>
+      <p>${formatter.format(new Date(eventDate))}</p>
       <p>${venAddress}</p>
     </div>`);
     infowindow.open(map,marker);
