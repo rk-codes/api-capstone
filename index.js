@@ -4,6 +4,7 @@ const MAP_URL = "https://maps.googleapis.com/maps/api/geocode"
 let map;
 let infowindow;
 let inputLocation;
+let allMarkers = [];
 
 //This function retrieves the categories of the events
 function getCategoriesFromApi(endpoint, callback){
@@ -84,7 +85,7 @@ function renderEventInfo(eventResult){
   });
 
   $('.events-list').append(`
-     <div class="js-eventInfo">
+     <div class="js-eventInfo" data-name="${eventName}">
       <div class="js-img-box">
         <img class="js-event-image" src="${eventLogo}">
         <span class="js-event-date">
@@ -148,9 +149,11 @@ function addMarkerToMap(eventData) {
  
   let marker = new google.maps.Marker({
         position: {lat: Number(eLat), lng: Number(eLong)},
-        map: map
+        map: map,
+        name: eName
   });
 
+  marker.setIcon("marker_initial.png");
   google.maps.event.addListener(marker, 'click', function() {
   infowindow.setContent(`
     <div class="js-marker-window">
@@ -160,8 +163,39 @@ function addMarkerToMap(eventData) {
     </div>`);
     infowindow.open(map,marker);
   });
+  allMarkers.push(marker); 
 }
 
+// Function to highlight marker of an event when mouse moved over that event div in the list
+function handleMouseOver(){
+   $('.events-list').on('mouseover', '.js-eventInfo',function(event){
+    console.log("Hover")
+    let name = event.currentTarget.getAttribute("data-name");
+    for(let i=0; i<allMarkers.length; i++){
+        if(name === allMarkers[i].name){
+        console.log("TRUE");
+        allMarkers[i].setIcon("marker_new.png");
+        break;
+      }
+    }
+  });
+}
+
+// Function to set the marker to the initial icon when mouse moved out of the event div in the list
+function handleMouseOut(name){
+  $('.events-list').on('mouseout', '.js-eventInfo',function(event){
+    console.log("MouseOut")
+    let name = event.currentTarget.getAttribute("data-name");
+   
+    for(let i=0; i<allMarkers.length; i++){
+        if(name === allMarkers[i].name){
+        console.log("TRUE");
+        allMarkers[i].setIcon("marker_initial.png");
+        break;
+      }
+    }
+  });
+}
 
 
 // Google Map
@@ -183,6 +217,8 @@ function initMap(lat, lng){
 
 function init(){
   handleSearchClick(); 
+  handleMouseOver();
+  handleMouseOut();
   $('#loading').hide();
   $('.result-section').hide();
   let input = $('#autocomplete').get(0);
