@@ -1,7 +1,5 @@
  body *{
 	box-sizing: border-box;
-/*	margin: 0;
-	padding: 0;*/
 	font-size: 1em;
 }
 html{
@@ -40,7 +38,6 @@ h1{
 	position: relative;
 	top: -45px;
 	left: 280px;
-
 }
 .search-box > span{
 	font-weight: bold;
@@ -86,7 +83,7 @@ h1{
 }
 .result-section{
 	/*background-color: #f2f2f2;*/
-	background-color: #ebebe0;
+	background-color: white;
     margin-top: 40px;
     border-radius: 8px;
     padding-bottom: 10px;
@@ -101,6 +98,17 @@ h1{
 	border-radius: 3px;
 
 }
+.searchagain-button{
+	padding: 5px;
+	margin-left: 5px;
+	border: 1px solid #0a84c1;
+	background-color: white;
+	color: #0a84c1;
+}
+.searchagain-button:hover{
+	color: white;
+	background-color: #0a84c1;
+}
 .list-and-map{
 	background-color: #f2f2f2;
 }
@@ -109,16 +117,14 @@ h1{
     background-color: #f5f4f0;
 	max-height: 450px;
     overflow-y: scroll;
-    /*width: 30%;*/
- 	float: left;
- 		
+    float: left; 		
  	margin-top: 5px;
 }
 
 .map-box{
-  height: 450px;
-  margin-top: 5px;
-  border: 1px solid #999;
+  	height: 450px;
+  	margin-top: 5px;
+  	border: 1px solid black;
  }
 
 .js-eventInfo{
@@ -155,6 +161,12 @@ h1{
 	width: 200px;
 	min-height: 40px;
 }
+.js-marker-window a{
+	color: #0278b8;
+	font-weight: bold;
+	text-decoration: none;
+}
+
 @media only screen and (max-width: 640px) {
 	.events-list{
 		margin-bottom: 20px;
