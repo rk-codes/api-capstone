@@ -1,6 +1,6 @@
 const API_KEY = "H5GX62DOZ35YWUCY36J7";
 const EVENTBRITE_URL = "https://www.eventbriteapi.com/v3";
-const MAP_CENTER = "https://maps.googleapis.com/maps/api/geocode"
+const MAP_URL = "https://maps.googleapis.com/maps/api/geocode"
 let map;
 let infowindow;
 let inputLocation;
@@ -22,14 +22,11 @@ function getEventsByLocation(location, callback){
       token: API_KEY
      }
   $.getJSON(`${EVENTBRITE_URL}/events/search/`,params,callback);
-  //displayMap(location);  
 }
 
 function displayMap(location){
+  $.getJSON(`${MAP_URL}/json?address=${location}`,function (data){
 
-  //$('.map').show();
-  $.getJSON(`${MAP_CENTER}/json?address=${location}`,function (data){
-      // console.dir(data);
       initMap(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng);
           
    });
@@ -37,7 +34,6 @@ function displayMap(location){
 }
 // Success callback. Pass the data recieved to next request to collect venue details
 function getDataOfEvents(data) {
-    // $('.search-pending-section').hide();
     $('#loading').hide();
     $('.result-section').show();
     displayMap(inputLocation);
@@ -52,8 +48,8 @@ function getEventVenueDetails(eventData){
   const params= {
      token: API_KEY
    }
-   let id = eventData.venue_id;
-   $.getJSON(`${EVENTBRITE_URL}/venues/${id}/`, params, function(data){
+  let id = eventData.venue_id;
+  $.getJSON(`${EVENTBRITE_URL}/venues/${id}/`, params, function(data){
      eventData.address = data.address.localized_address_display;
      eventData.latitude = data.latitude;
      eventData.longitude = data.longitude;
@@ -107,8 +103,7 @@ function renderEventInfo(eventResult){
 
 // Function called when user enters the location and press search button
 function handleSearchClick() {
-  console.log("Enter handleSearchClick ");
-  $('.search-button').on('click', function (event){
+    $('.search-button').on('click', function (event){
     event.preventDefault();
     inputLocation = $('.user-location').val();
     $('.search-box').hide();
@@ -117,8 +112,8 @@ function handleSearchClick() {
     $('.location-box').append(`
       <span class="current-location">Upcoming events in <strong>${inputLocation}</strong></span>
       <input type="button" value="New Search" class="searchagain-button">`);
-     getEventsByLocation(inputLocation, getDataOfEvents);
-     handleNewSearchClick();
+    getEventsByLocation(inputLocation, getDataOfEvents);
+    handleNewSearchClick();
 
   })
 }
@@ -129,7 +124,6 @@ function handleNewSearchClick(){
      event.preventDefault();
      $('.location-box').html("");
      $('.result-section').hide();
-     // $('.js-searchagain-button').hide();
      $('.search-box').show();
      $('.user-location').val("");
      $('.events-list').html("");
@@ -138,11 +132,11 @@ function handleNewSearchClick(){
 
 // Add marker to google map
 function addMarkerToMap(eventData) {
-  //let eventLatLng = new google.maps.LatLng(lat, long);
   let eLat = eventData.latitude;
   let eLong = eventData.longitude;
   let venAddress = eventData.address||"No Address";
   let eName = eventData.name.text;
+  let eventDetails = eventData.url;
   let marker = new google.maps.Marker({
         position: {lat: Number(eLat), lng: Number(eLong)},
         map: map
@@ -151,7 +145,7 @@ function addMarkerToMap(eventData) {
   google.maps.event.addListener(marker, 'click', function() {
   infowindow.setContent(`
     <div class="js-marker-window">
-      <span><strong>${eName}</strong></span>
+      <a href="${eventDetails}" target="_blank">${eName}</a>
       <p>${venAddress}</p>
     </div>`);
     infowindow.open(map,marker);
@@ -178,8 +172,7 @@ function initMap(lat, lng){
 
 
 function init(){
-  handleSearchClick();
- 
+  handleSearchClick(); 
   $('#loading').hide();
   $('.result-section').hide();
   let input = $('#autocomplete').get(0);
