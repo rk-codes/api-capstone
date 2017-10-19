@@ -29,7 +29,7 @@ function displayMap(location){
 
   //$('.map').show();
   $.getJSON(`${MAP_CENTER}/json?address=${location}`,function (data){
-      console.dir(data);
+      // console.dir(data);
       initMap(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng);
           
    });
@@ -48,14 +48,12 @@ function getDataOfEvents(data) {
 
 // This function makes ajax request to get the venue information
 function getEventVenueDetails(eventData){
-  console.log(" Enter getEventVenueDetails Venue Id: " + eventData.venue_id);
+  
   const params= {
      token: API_KEY
    }
    let id = eventData.venue_id;
    $.getJSON(`${EVENTBRITE_URL}/venues/${id}/`, params, function(data){
-     console.log("success call back venue");
-     console.log(data.address.localized_address_display);
      eventData.address = data.address.localized_address_display;
      eventData.latitude = data.latitude;
      eventData.longitude = data.longitude;
@@ -76,8 +74,6 @@ function renderEventInfo(eventResult){
   let fromDate = eventResult.start.local;
   let toData = eventResult.end.local;
   let eventAddress = eventResult.address;
-  console.log(`Event start: ${fromDate}`);
-  console.log(new Date(fromDate));
   let eventDate = new Date(fromDate);
   let options = {
     weekday: 'long', 
@@ -118,10 +114,26 @@ function handleSearchClick() {
     $('.search-box').hide();
     $('#loading').show();
     $('.location-box').show();
-    $('.location-box').append(`<span class="current-location">Upcoming events in ${inputLocation}`);
-    // $('.search-pending-section').show();
-    getEventsByLocation(inputLocation, getDataOfEvents);
+    $('.location-box').append(`
+      <span class="current-location">Upcoming events in <strong>${inputLocation}</strong></span>
+      <input type="button" value="New Search" class="searchagain-button">`);
+     getEventsByLocation(inputLocation, getDataOfEvents);
+     handleNewSearchClick();
+
   })
+}
+
+function handleNewSearchClick(){
+   console.log("Enter handleNewSearchClick ");
+   $('.searchagain-button').on('click',function(event){
+     event.preventDefault();
+     $('.location-box').html("");
+     $('.result-section').hide();
+     // $('.js-searchagain-button').hide();
+     $('.search-box').show();
+     $('.user-location').val("");
+     $('.events-list').html("");
+   });
 }
 
 // Add marker to google map
@@ -131,7 +143,6 @@ function addMarkerToMap(eventData) {
   let eLong = eventData.longitude;
   let venAddress = eventData.address||"No Address";
   let eName = eventData.name.text;
-  console.log({lat: eLat, lng: eLong});
   let marker = new google.maps.Marker({
         position: {lat: Number(eLat), lng: Number(eLong)},
         map: map
@@ -153,8 +164,6 @@ function addMarkerToMap(eventData) {
 function initMap(lat, lng){
   $('.map').show();
   console.log("Init Map");
-  console.log(lat);
-  console.log(lng);
   let options = {
     zoom: 10,
      //center: {lat: lat, lng: lng}
@@ -170,7 +179,7 @@ function initMap(lat, lng){
 
 function init(){
   handleSearchClick();
-  // $('.search-pending-section').hide();
+ 
   $('#loading').hide();
   $('.result-section').hide();
   let input = $('#autocomplete').get(0);
