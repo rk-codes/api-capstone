@@ -136,7 +136,7 @@ function addMarkerToMap(eventData) {
   infowindow.setContent(`
     <div class="js-marker-window">
       <a href="${eventDetails}" target="_blank">${eName}</a>
-      <p>${formatter.format(new Date(eventDate))}</p>
+      <p class="js-marker-date">${formatter.format(new Date(eventDate))}</p>
       <p>${venAddress}</p>
     </div>`);
     infowindow.open(map,marker);
