@@ -15,17 +15,25 @@ body{
 }
 header{
 	text-align: center;
-	background-color: #d6a46f;
-	color: brown;
 	background-color: white;
-	opacity: 0.5;
 	margin-bottom: 25px;
 }
 h1{
-	font-size: 2em;
-	font-family: 'Playfair Display', serif;
+	font-size: 2.2em;
+	font-family: 'Oswald', sans-serif;
 	margin-top: 5px;
+	margin-bottom: 0px;
 	padding: 0;
+}
+h1 span{
+	color: darkorange;
+}
+header p{
+	font-size: 0.8em;
+	margin: 0;
+	padding: 0;
+	/*font-family: 'Shadows Into Light', cursive;*/
+	font-family: 'Caveat Brush', cursive;
 }
 .search-label{
 	font-family: 'Lobster Two', cursive;
@@ -52,20 +60,20 @@ h1{
 }
 .user-location{
 	border: 2px solid indianred;
-    border-radius: 4px;
-    font-size: 1.1em;
-    padding: 4px;
-    margin-top: 8px;
+	border-radius: 4px;
+	font-size: 1.1em;
+	padding: 4px;
+	margin-top: 8px;
 }
 .search-button{
 	padding: 4px;
 	margin-left: 8px;
 	border-radius: 6px;
 	border: 0;
-    background-color: indianred;
-    color: white;
-    font-size: 1.3em;
-    font-weight: bold;
+	background-color: indianred;
+	color: white;
+	font-size: 1.3em;
+	font-weight: bold;
 }
 .search-button:hover{
 	background-color: blueviolet;		
@@ -76,14 +84,14 @@ h1{
 	position: absolute;
 	top: 30%;
 	left: 40%;
-    background: url('loader.gif') no-repeat center center;
-    opacity: 0.6;
+	background: url('loader.gif') no-repeat center center;
+	opacity: 0.6;
 }
 .result-section{
 	background-color: white;
-    margin-top: 40px;
-    border-radius: 8px;
-    padding-bottom: 20px;
+	margin-top: 40px;
+	border-radius: 8px;
+	padding-bottom: 20px;
 }
 .location-box{
 	margin-top: 16px;
@@ -104,16 +112,16 @@ h1{
 }
 .events-list{
 	border: 1px solid black;
-    background-color: #f5f4f0;
+	background-color: #f5f4f0;
 	max-height: 450px;
-    overflow-y: scroll;
-    float: left; 		
- 	margin-top: 5px;
+	overflow-y: scroll;
+	float: left; 		
+	margin-top: 5px;
 }
 .map-box{
-  	height: 450px;
-  	margin-top: 5px;
-  	border: 1px solid black;
+	height: 450px;
+	margin-top: 5px;
+	border: 1px solid black;
  }
 .js-eventInfo{
 	margin: 5px;
@@ -163,7 +171,7 @@ h1{
 	}
 }
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
- 	header{
+	header{
  		margin-bottom: 130px;
  	}
  	.js-img-box{
