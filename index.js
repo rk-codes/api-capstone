@@ -86,7 +86,7 @@ function renderEventInfo(eventResult) {
 
 // Function called when user enters the location and press search button
 function handleSearchClick() {
-  $('.search-button').on('click', function (event) {
+  $('.search-form').submit(function (event) {
     event.preventDefault();
     inputLocation = $('.user-location').val();
     $('.search-box').hide();
