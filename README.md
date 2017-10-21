@@ -5,5 +5,5 @@ The results are also laid out on a google map ,serving as a friendlier visual ai
 
 Event information is retrieved using Eventbrite API and the map is displayed using Google Maps API.
 
-#Technologies Used
+# Technologies Used
 HTML, CSS, JavaScript, jQuery, AJAX
