@@ -29,25 +29,12 @@ h1 span{
 	color: darkorange;
 }
 header p{
-	font-size: 0.8em;
+	font-size: 1.2em;
 	margin: 0;
-	padding: 0;
-	/*font-family: 'Shadows Into Light', cursive;*/
 	font-family: 'Caveat Brush', cursive;
 }
 .search-label{
 	font-family: 'Lobster Two', cursive;
-}
-.logo-image{
-	width: 70px;	
-	height: 50px;
-	float: left;
-	position: relative;
-	top: -45px;
-	left: 280px;
-}
-.search-box > span{
-	font-weight: bold;
 	font-size: 1.2em;
 	color: white;
 }
@@ -85,7 +72,6 @@ header p{
 	top: 30%;
 	left: 50%;
 	background: url('loader.gif') no-repeat center center;
-	opacity: 0.6;
 	transform: translateX(-50%);
 }
 .result-section{
