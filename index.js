@@ -108,6 +108,7 @@ function handleNewSearchClick() {
     $('.search-box').show();
     $('.user-location').val("");
     $('.events-list').html("");
+    allMarkers.length = 0;
   });
 }
 
