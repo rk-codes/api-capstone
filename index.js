@@ -6,7 +6,7 @@ let infowindow;
 let inputLocation;
 let allMarkers = [];
 
-// Calls the api to get the events in the given location
+// Calls the api to retrieve events in the location submitted by the user
 function getEventsByLocation(location, callback){
   const params= {
     "location.address": `${location}`,
@@ -15,23 +15,25 @@ function getEventsByLocation(location, callback){
   $.getJSON(`${EVENTBRITE_URL}/events/search/`, params, callback);
 }
 
-function displayMap(location){
+// Calls google map api
+function initializeMap(location){
   $.getJSON(`${MAP_URL}/json?address=${location}`, function (data){
     initMap(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng);        
   });
 }
 
-// Success callback. Pass the data recieved to next request to collect venue details
+// This function is the callback of retrieving the events. 
+// The data recieved is passed to next ajax request to collect venue details
 function getDataOfEvents(data) {
   $('#loading').hide();
   $('.result-section').show();
-  displayMap(inputLocation);
+  initializeMap(inputLocation);
   data.events.forEach((event) => {
     getEventVenueDetails(event);
   });
 }
 
-// This function makes ajax request to get the venue information
+// This function makes an ajax request to get the venue information of an event
 function getEventVenueDetails(eventData){  
   const params= {
     token: API_KEY
@@ -46,7 +48,7 @@ function getEventVenueDetails(eventData){
   });
 }
 
-// This function renders the DOM with the event data
+// This function populates the DOM with the event data
 function renderEventInfo(eventResult) {
   let eventName = eventResult.name.text;
   let eventDescription = eventResult.description.text;
@@ -84,7 +86,7 @@ function renderEventInfo(eventResult) {
   `);
 }
 
-// Function called when user enters the location and press search button
+// This function listens to the submission of a search location by the user
 function handleSearchClick() {
   $('.search-form').submit(function (event) {
     event.preventDefault();
@@ -100,6 +102,7 @@ function handleSearchClick() {
   });
 }
 
+// Handles user giving a new search
 function handleNewSearchClick() {
   $('.searchagain-button').on('click', function(event) {
     event.preventDefault();
@@ -112,7 +115,7 @@ function handleNewSearchClick() {
   });
 }
 
-// Add marker to google map
+// Add marker to google map and set content of the info window
 function addMarkerToMap(eventData) {
   let eLat = eventData.latitude;
   let eLong = eventData.longitude;
@@ -145,7 +148,7 @@ function addMarkerToMap(eventData) {
   allMarkers.push(marker); 
 }
 
-// Function to highlight marker of an event when mouse moved over that event div in the list
+// Sets a new marker for an event when mouse moved over that event in the list
 function handleMouseOver(){
   $('.events-list').on('mouseover', '.js-eventInfo',function(event) {
     let name = event.currentTarget.getAttribute("data-name");
@@ -158,7 +161,7 @@ function handleMouseOver(){
   });
 }
 
-// Function to set the marker to the initial icon when mouse moved out of the event div in the list
+// Sets the marker to the initial icon when mouse moved out of the event in the list
 function handleMouseOut(name){
   $('.events-list').on('mouseout', '.js-eventInfo',function(event) {
     let name = event.currentTarget.getAttribute("data-name");
@@ -171,7 +174,7 @@ function handleMouseOut(name){
   });
 }
 
-// Google Map
+// Initialize google map centered on user input location
 function initMap(lat, lng) {
   $('.map').show();
   let options = {
@@ -182,7 +185,7 @@ function initMap(lat, lng) {
    infowindow = new google.maps.InfoWindow({});
 }
 
-
+// Initial settings
 function init() {
   handleSearchClick(); 
   handleMouseOver();
