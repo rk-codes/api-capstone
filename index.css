@@ -24,14 +24,23 @@ h1{
 	margin-top: 5px;
 	margin-bottom: 0px;
 	padding: 0;
+	display: inline;
 }
 h1 span{
 	color: darkorange;
+}
+header img{
+	width: 55px;
+    position: relative;
+    left: 0%;
+    top: 15px;
 }
 header p{
 	font-size: 1.2em;
 	margin: 0;
 	font-family: 'Caveat Brush', cursive;
+	position: relative; 
+	left: -3%;
 }
 .search-label{
 	font-family: 'Lobster Two', cursive;
