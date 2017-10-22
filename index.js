@@ -96,7 +96,7 @@ function handleSearchClick() {
     $('.location-box').show();
     $('.location-box').append(`
       <span class="current-location">Upcoming events in <strong>${inputLocation}</strong></span>
-      <input type="button" value="New Search" class="searchagain-button">`);
+      <input type="button" value="New Search" class="js-searchagain-button">`);
     getEventsByLocation(inputLocation, getDataOfEvents);
     handleNewSearchClick();
   });
@@ -104,7 +104,7 @@ function handleSearchClick() {
 
 // Handles user giving a new search
 function handleNewSearchClick() {
-  $('.searchagain-button').on('click', function(event) {
+  $('.js-searchagain-button').on('click', function(event) {
     event.preventDefault();
     $('.location-box').html("");
     $('.result-section').hide();
