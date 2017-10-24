@@ -55,7 +55,7 @@ header p{
 	right: 0;
 }
 .user-location{
-	border: 2px solid indianred;
+	border: 2px solid darkorange;
 	border-radius: 4px;
 	font-size: 1.1em;
 	padding: 4px;
@@ -66,7 +66,7 @@ header p{
 	margin-left: 8px;
 	border-radius: 6px;
 	border: 0;
-	background-color: indianred;
+	background-color: darkorange;
 	color: white;
 	font-size: 1.3em;
 	font-weight: bold;
