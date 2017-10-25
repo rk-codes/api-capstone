@@ -102,6 +102,7 @@ function handleSearchClick() {
     event.preventDefault();
     inputLocation = $('.user-location').val();
     $('.search-box').hide();
+    $('.intro-section').hide();
     $('#loading').show();
     $('.location-box').show();
     $('.location-box').append(`
@@ -118,6 +119,7 @@ function handleNewSearchClick() {
     event.preventDefault();
     $('.location-box').html("");
     $('.result-section').hide();
+    $('.intro-section').show();
     $('.search-box').show();
     $('.user-location').val("");
     $('.events-list').html("");
