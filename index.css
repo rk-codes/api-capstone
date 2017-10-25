@@ -86,7 +86,6 @@ header p{
 .result-section{
 	background-color: white;
 	margin-top: 40px;
-	border-radius: 8px;
 	padding-bottom: 20px;
 }
 .location-box{
@@ -121,10 +120,13 @@ header p{
  }
 .js-eventInfo{
 	margin: 5px;
-	padding: 5px;
-	border-radius: 6px;
+	padding: 10px;
 	font-size: 0.9em;
-	box-shadow: inset 0 0 6px #000000;
+	border: 1px solid gray;
+}
+.js-eventInfo a{
+	color: darkorange;
+	font-weight: bold;
 }
 .js-img-box{
 	position: relative;
