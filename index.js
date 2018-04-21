@@ -1,12 +1,15 @@
 const API_KEY = "H5GX62DOZ35YWUCY36J7";
 const EVENTBRITE_URL = "https://www.eventbriteapi.com/v3";
-const MAP_ICON_DEFAULT = "marker_initial.png"
-const MAP_ICON_SELECTED = "marker_new.png"
-const MAP_URL = "https://maps.googleapis.com/maps/api/geocode"
+const MAP_ICON_DEFAULT = "marker_initial.png";
+const MAP_ICON_SELECTED = "marker_new.png";
+const MAP_URL = "https://maps.googleapis.com/maps/api/geocode";
+const MAP_QUEST_URL = "https://www.mapquestapi.com/geocoding/v1/";
+const MAP_QUEST_KEY = "ZesQDe4y2u8YDVeOh4tGImGjZfa7z4lR";
 let map;
 let mapInfoWindow;
 let inputLocation;
 let allMarkers = [];
+
 
 // Calls the api to retrieve events in the location submitted by the user
 function getEventsByLocation(location, callback){
@@ -35,12 +38,59 @@ function initializeMap(location) {
   }
   map = new google.maps.Map($('#map').get(0), options);
   mapInfoWindow = new google.maps.InfoWindow({});
-  $.getJSON(`${MAP_URL}/json?address=${location}`, function (data) {
-    let latitude = data.results[0].geometry.location.lat;
-    let longitude = data.results[0].geometry.location.lng;
-    map.setCenter(new google.maps.LatLng(latitude, longitude));      
-    $('#map').show();
+  findLatLngViaMapQuest(location);  
+}
+
+// Center and display the map using the latitude and longitude received
+function centerAndDisplayMap(latitude, longitude) {
+  map.setCenter(new google.maps.LatLng(latitude, longitude));      
+  $('#map').show();
+}
+
+//Get the values of latitude and longitude from google map geocoder if  
+// getting latitude and longitude from mapQuest api fails
+function findLatLngViaGoogleMaps(location) {
+    let geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ 'address': `${location}` }, function (results, status) { 
+      if(results[0]) {
+        let lat = results[0].geometry.location.lat();
+        let lng = results[0].geometry.location.lng();
+        centerAndDisplayMap(lat, lng);
+      }  
+      else {
+      $('.map-box').html(`
+        <div class="map-error">
+          <p>We're having trouble zooing in to the results. Please zoom manually.
+          </p>
+          <p>Sorry about that</p>
+          <button type="button" class="maperror-button">Ok</button>
+        </div>
+      `)
+   }       
+  })
+}
+
+//Get the values of latitude and longitude based on the user input location
+function findLatLngViaMapQuest(location) {
+  $.getJSON(`${MAP_QUEST_URL}/address?key=${MAP_QUEST_KEY}&location=${location}`, function (data) {
+    if(data.results[0]) {
+      let latitude = data.results[0].locations[0].latLng.lat;
+      let longitude = data.results[0].locations[0].latLng.lng;
+      centerAndDisplayMap(latitude,longitude);
+    }
+    else {
+      findLatLngViaGoogleMaps(location);
+    }
+  });  
+}
+
+//Default display of map if getting latitude and longitude from mapQuest or google geocoder fails
+function mapDefaultDisplay() {
+   map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -34.397, lng: 150.644},
+    zoom: 1
   });
+  $('#map').show();
 }
 
 // This function makes an ajax request to get the venue information of an event
@@ -127,6 +177,14 @@ function handleNewSearchClick() {
   });
 }
 
+// Handles user clicking ok button on map loading error
+function handleMapErrorButtonClick() {
+  $('main').on('click', '.maperror-button', function(event) {
+    console.log("Clicked")
+    $('.map-error').hide();
+    mapDefaultDisplay();
+  })
+}
 // Add marker to google map and set the content of the info window
 function addMarkerToMap(eventData) {
   let eLat = eventData.latitude;
@@ -191,6 +249,7 @@ function init() {
   handleSearchClick();
   handleMouseOverEventInList();
   handleMouseOutEventInList();
+  handleMapErrorButtonClick();
   $('#loading').hide();
   $('.result-section').hide();
   let input = $('#autocomplete').get(0);
