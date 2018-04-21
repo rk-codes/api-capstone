@@ -134,6 +134,12 @@ header p{
 	margin-top: 5px;
 	border: 1px solid black;
  }
+ .map-error {
+	 margin: 10px;
+	 padding: 8px;
+	 border: 1px solid black;
+	 color: red;
+ }
 .js-eventInfo{
 	margin: 5px;
 	padding: 10px;
